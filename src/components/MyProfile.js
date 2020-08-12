@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './myProfile.less';
-import FormItem from './FormItem';
+import FormItem, { ITEM_TYPES } from './FormItem';
 
 class MyProfile extends Component {
   constructor () {
@@ -16,21 +16,27 @@ class MyProfile extends Component {
   }
 
   render () {
+    const genderOptions = [
+      { label: 'Male', value: 'male' },
+      { label: 'Female', value: 'female' }
+    ];
     return (
       <React.Fragment>
         <form>
           <FormItem
             keyWord="name"
             value={this.state.data.name}
-            type="input"
+            type={ITEM_TYPES.input}
             onChange={this.handleChange.bind(this, 'name')}
           />
 
-          <label htmlFor="gender">Gender</label>
-          <select name="gender" value={this.state.gender} id="gender">
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-          </select>
+          <FormItem
+            keyWord="gender"
+            value={this.state.data.gender}
+            type={ITEM_TYPES.select}
+            options={genderOptions}
+            onChange={this.handleChange.bind(this, 'name')}
+          />
 
           <label htmlFor="desc">Description</label>
           <textarea name="desc" value={this.state.desc} placeholder="Description of yourself" id="desc" cols="30" rows="10"/>
