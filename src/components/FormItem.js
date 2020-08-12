@@ -8,52 +8,82 @@ class FormItem extends React.Component {
   }
 
   render () {
-    const { keyWord, value, onChange, type, options } = this.props;
-    switch (type) {
+    switch (this.props.type) {
       case ITEM_TYPES.input:
-        return this.renderInput(keyWord, value, onChange);
+        return this.renderInput();
       case ITEM_TYPES.select:
-        return this.renderSelect(keyWord, value, onChange, options);
+        return this.renderSelect();
       case ITEM_TYPES.textarea:
-        return this.renderTextarea(keyWord, value, onChange);
+        return this.renderTextarea();
       case ITEM_TYPES.checkbox:
-        return this.renderCheckbox(keyWord, value, onChange);
+        return this.renderCheckbox();
     }
   }
 
-  renderInput (keyWord, value, onChange) {
+  renderInput () {
+    const { keyWord, value, label, onChange } = this.props;
     return (
       <React.Fragment>
-        <label htmlFor={keyWord}>Name</label>
+        <label htmlFor={keyWord}>{label}</label>
         <input type="text" name={keyWord} onChange={onChange} value={value} id={keyWord} />
       </React.Fragment>
     );
   }
 
-  renderSelect (keyWord, value, onChange, options) {
+  renderSelect () {
+    const { keyWord, value, label, onChange, options } = this.props;
     const optionsList = options.map(itm =>
       <option value={itm.value} key={itm.value}>{itm.label}</option>
     );
     return (
       <React.Fragment>
-        <label htmlFor="gender">Gender</label>
-        <select name="gender" value={this.state.gender} id="gender"> {optionsList} </select>)
+        <label htmlFor={keyWord}>{label}</label>
+        <select name={keyWord}
+          value={value}
+          id={keyWord}
+          onChange={onChange}
+        > {optionsList} </select>)
       </React.Fragment>
     );
   }
 
-  renderTextarea (keyWord, value, onChange) {
-    return undefined;
+  renderTextarea () {
+    const { keyWord, value, label, onChange, placeholder } = this.props;
+    return (
+      <React.Fragment>
+        <label htmlFor={keyWord}>{label}</label>
+        <textarea name={keyWord} value={value}
+          placeholder={placeholder}
+          id={keyWord}
+          cols="30" rows="10"
+          onChange={onChange}
+        />
+      </React.Fragment>
+    );
   }
 
-  renderCheckbox (keyWord, value, onChange) {
-    return Promise.resolve(undefined);
+  renderCheckbox () {
+    const { keyWord, label, onChange } = this.props;
+    return (
+      <React.Fragment>
+        <input
+          type="checkbox"
+          name={keyWord} id={keyWord}
+          onChange={(e) => {
+            onChange(!!e.target.checked);
+          }}
+        />
+        <label htmlFor={keyWord}>{label}</label>
+      </React.Fragment>
+    );
   }
 }
 
 FormItem.propTypes = {
   keyWord: PropTypes.string,
+  label: PropTypes.string,
   type: PropTypes.string,
+  placeholder: PropTypes.string,
   value: PropTypes.string,
   onChange: PropTypes.func,
   options: PropTypes.array

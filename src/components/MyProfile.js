@@ -9,9 +9,10 @@ class MyProfile extends Component {
       data: {
         name: '',
         gender: 'male',
-        desc: '',
+        description: '',
         term: false
-      }
+      },
+      allFieldCompleted: false
     };
   }
 
@@ -25,6 +26,7 @@ class MyProfile extends Component {
         <form>
           <FormItem
             keyWord="name"
+            label="Name"
             value={this.state.data.name}
             type={ITEM_TYPES.input}
             onChange={this.handleChange.bind(this, 'name')}
@@ -32,26 +34,46 @@ class MyProfile extends Component {
 
           <FormItem
             keyWord="gender"
+            label="Gender"
             value={this.state.data.gender}
             type={ITEM_TYPES.select}
             options={genderOptions}
-            onChange={this.handleChange.bind(this, 'name')}
+            onChange={this.handleChange.bind(this, 'gender')}
           />
 
-          <label htmlFor="desc">Description</label>
-          <textarea name="desc" value={this.state.desc} placeholder="Description of yourself" id="desc" cols="30" rows="10"/>
+          <FormItem
+            keyWord="description"
+            label="Description"
+            value={this.state.data.description}
+            type={ITEM_TYPES.textarea}
+            placeholder="Description of yourself"
+            onChange={this.handleChange.bind(this, 'description')}
+          />
 
-          <input type="checkbox" name="term" id="term" value={this.state.term}/>
-          <label htmlFor="term">I have read the terms of conduct</label>
+          <FormItem
+            keyWord="term"
+            label="I have read the terms of conduct"
+            type={ITEM_TYPES.checkbox}
+            onChange={this.handleChange.bind(this, 'term')}
+          />
 
-          <input type="submit" value="Submit"/>
+          <input type="submit" disabled={this.state.allFieldCompleted} value="Submit"/>
         </form>
       </React.Fragment>
     );
   }
 
-  handleChange (key, e) {
-    const value = e.target.value;
+  handleChange (...args) {
+    let key = args[0];
+    let termValue, event;
+
+    if (key === 'term') {
+      [key, termValue, event] = args;
+    } else {
+      [key, event] = args;
+    }
+
+    const value = key === 'term' ? termValue : event.target.value;
     const newData = Object.assign({}, this.state.data, {
       [key]: value
     });
