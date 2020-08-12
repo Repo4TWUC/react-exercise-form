@@ -57,7 +57,12 @@ class MyProfile extends Component {
             onChange={this.handleChange.bind(this, 'term')}
           />
 
-          <input type="submit" disabled={this.state.allFieldCompleted} value="Submit"/>
+          <input
+            type="submit"
+            disabled={this.state.allFieldCompleted ? '' : 'disabled'}
+            value="Submit"
+            onSubmit={this.handleSubmit.bind(this)}
+          />
         </form>
       </React.Fragment>
     );
@@ -78,8 +83,18 @@ class MyProfile extends Component {
       [key]: value
     });
     this.setState({
-      data: newData
+      data: newData,
+      allFieldCompleted: this.isAllFieldCompleted(newData)
     });
+  }
+
+  isAllFieldCompleted ({ name, gender, description, term }) {
+    return Boolean(name && gender && description && term);
+  }
+
+  handleSubmit (e) {
+    e.preventDefault();
+    console.log(this.state.data);
   }
 }
 
