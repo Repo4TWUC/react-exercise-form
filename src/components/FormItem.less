@@ -1,0 +1,41 @@
+.form-item {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 0;
+  min-width: 400px;
+
+  label {
+    font-size: 20px;
+    font-weight: bold;
+    color: #4c4f50;
+  }
+
+  &>input, &>textarea, &>select{
+    padding: 0 10px;
+    border: 1px solid #beb9b9;
+    outline: none;
+    color: #4c4f50;
+    background-color: #dddcdd;
+    height: 50px;
+    font-size: 16px;
+  }
+
+  &>textarea {
+    height: 100px;
+  }
+
+  .checkbox {
+    display: flex;
+    align-items: center;
+    input {
+      width: 20px;
+      height: 20px;
+      outline: none;
+    }
+    label {
+      padding: 0 10px;
+      color: #54575a;
+      font-size: 16px;
+    }
+  }
+}

@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import './FormItem.less';
 
 class FormItem extends React.Component {
   constructor (props) {
@@ -8,24 +9,37 @@ class FormItem extends React.Component {
   }
 
   render () {
+    let innerFormItem;
     switch (this.props.type) {
       case ITEM_TYPES.input:
-        return this.renderInput();
+        innerFormItem = this.renderInput();
+        break;
       case ITEM_TYPES.select:
-        return this.renderSelect();
+        innerFormItem = this.renderSelect();
+        break;
       case ITEM_TYPES.textarea:
-        return this.renderTextarea();
+        innerFormItem = this.renderTextarea();
+        break;
       case ITEM_TYPES.checkbox:
-        return this.renderCheckbox();
+        innerFormItem = this.renderCheckbox();
+        break;
     }
+
+    return (<div className="form-item">{innerFormItem}</div>);
   }
 
   renderInput () {
-    const { keyWord, value, label, onChange } = this.props;
+    const { keyWord, value, label, onChange, placeholder } = this.props;
     return (
       <React.Fragment>
         <label htmlFor={keyWord}>{label}</label>
-        <input type="text" name={keyWord} onChange={onChange} value={value} id={keyWord} />
+        <input
+          type="text"
+          name={keyWord}
+          onChange={onChange}
+          value={value} id={keyWord}
+          placeholder={placeholder}
+        />
       </React.Fragment>
     );
   }
@@ -42,7 +56,7 @@ class FormItem extends React.Component {
           value={value}
           id={keyWord}
           onChange={onChange}
-        > {optionsList} </select>)
+        > {optionsList} </select>
       </React.Fragment>
     );
   }
@@ -65,7 +79,7 @@ class FormItem extends React.Component {
   renderCheckbox () {
     const { keyWord, label, onChange } = this.props;
     return (
-      <React.Fragment>
+      <div className="checkbox">
         <input
           type="checkbox"
           name={keyWord} id={keyWord}
@@ -74,7 +88,7 @@ class FormItem extends React.Component {
           }}
         />
         <label htmlFor={keyWord}>{label}</label>
-      </React.Fragment>
+      </div>
     );
   }
 }

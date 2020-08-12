@@ -23,12 +23,14 @@ class MyProfile extends Component {
     ];
     return (
       <React.Fragment>
-        <form>
+        <form className="myProfile">
+          <h1>My Profile</h1>
           <FormItem
             keyWord="name"
             label="Name"
             value={this.state.data.name}
             type={ITEM_TYPES.input}
+            placeholder="Name"
             onChange={this.handleChange.bind(this, 'name')}
           />
 
@@ -59,9 +61,10 @@ class MyProfile extends Component {
 
           <input
             type="submit"
+            id="submit"
             disabled={this.state.allFieldCompleted ? '' : 'disabled'}
             value="Submit"
-            onSubmit={this.handleSubmit.bind(this)}
+            onClick={this.handleSubmit.bind(this)}
           />
         </form>
       </React.Fragment>
